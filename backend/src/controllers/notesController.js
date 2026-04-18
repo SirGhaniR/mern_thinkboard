@@ -1,11 +1,11 @@
-export const index = (req, res) => {
+export const getNotes = (req, res) => {
   return res.status(200).json({
     success: "true",
     message: "Notes has been fetched successfully",
   });
 };
 
-export const store = (req, res) => {
+export const createNote = (req, res) => {
   const { note } = req.body;
 
   return res.status(201).json({
@@ -15,7 +15,7 @@ export const store = (req, res) => {
   });
 };
 
-export const show = (req, res) => {
+export const getNote = (req, res) => {
   const { id } = req.params.id;
   return res.status(200).json({
     success: "true",
@@ -24,7 +24,7 @@ export const show = (req, res) => {
   });
 };
 
-export const update = (req, res) => {
+export const updateNote = (req, res) => {
   const { note } = req.body;
 
   return res.status(200).json({
@@ -34,7 +34,7 @@ export const update = (req, res) => {
   });
 };
 
-export const destroy = (req, res) => {
+export const deleteNote = (req, res) => {
   const { id } = req.params.id;
   return res.status(200).json({
     success: "true",
