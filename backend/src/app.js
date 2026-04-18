@@ -1,5 +1,5 @@
 import express from "express";
-import notesRoute from "./routes/notes.routes.js";
+import notesRoute from "./routes/notesRoutes.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
 
