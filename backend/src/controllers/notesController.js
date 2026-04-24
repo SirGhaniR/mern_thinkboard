@@ -9,13 +9,7 @@ const notFoundError = (data, message) => {
   }
 };
 
-const internalServerError = (err) => {
-  console.error(err);
-  const error = new Error();
-  throw error;
-};
-
-export const getNotes = async (req, res) => {
+export const getNotes = async (req, res, next) => {
   try {
     const notes = await Note.find().sort({ createdAt: -1 }); // -1 will sort by newest first (desc. order)
 
@@ -27,11 +21,11 @@ export const getNotes = async (req, res) => {
       data: notes,
     });
   } catch (error) {
-    internalServerError(error);
+    next(error);
   }
 };
 
-export const createNote = async (req, res) => {
+export const createNote = async (req, res, next) => {
   try {
     const { title, content } = req.body;
 
@@ -46,11 +40,11 @@ export const createNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    internalServerError(error);
+    next(error);
   }
 };
 
-export const getNote = async (req, res) => {
+export const getNote = async (req, res, next) => {
   try {
     const id = req.params.id;
 
@@ -64,11 +58,11 @@ export const getNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    internalServerError(error);
+    next(error);
   }
 };
 
-export const updateNote = async (req, res) => {
+export const updateNote = async (req, res, next) => {
   try {
     const id = req.params.id;
     const { title, content } = req.body;
@@ -90,11 +84,11 @@ export const updateNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    internalServerError(error);
+    next(error);
   }
 };
 
-export const deleteNote = async (req, res) => {
+export const deleteNote = async (req, res, next) => {
   try {
     const id = req.params.id;
 
@@ -108,6 +102,6 @@ export const deleteNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    internalServerError(error);
+    next(error);
   }
 };
