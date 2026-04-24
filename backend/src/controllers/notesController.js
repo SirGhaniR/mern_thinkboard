@@ -1,16 +1,19 @@
 import Note from "../models/Note.js";
 
-export const getNotes = async (req, res) => {
+const notFoundError = (data, message) => {
+  if (!data) {
+    const error = new Error(message);
+    error.statusCode = 404;
+    error.code = "DATA_NOT_FOUND";
+    throw error;
+  }
+};
+
+export const getNotes = async (req, res, next) => {
   try {
     const notes = await Note.find().sort({ createdAt: -1 }); // -1 will sort by newest first (desc. order)
 
-    if (!notes) {
-      return res.status(404).json({
-        success: false,
-        message: "Notes not found",
-        data: notes,
-      });
-    }
+    notFoundError(notes, "Notes not found");
 
     return res.status(200).json({
       success: true,
@@ -18,15 +21,11 @@ export const getNotes = async (req, res) => {
       data: notes,
     });
   } catch (error) {
-    console.error("Error in getNotes:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server Internal Error",
-    });
+    next(error);
   }
 };
 
-export const createNote = async (req, res) => {
+export const createNote = async (req, res, next) => {
   try {
     const { title, content } = req.body;
 
@@ -41,27 +40,17 @@ export const createNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    console.error("Error in createNote:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server Internal Error",
-    });
+    next(error);
   }
 };
 
-export const getNote = async (req, res) => {
+export const getNote = async (req, res, next) => {
   try {
     const id = req.params.id;
 
     const note = await Note.findById(id);
 
-    if (!note) {
-      return res.status(404).json({
-        success: false,
-        message: "Note not found",
-        data: note,
-      });
-    }
+    notFoundError(note, "Note not found");
 
     return res.status(200).json({
       success: true,
@@ -69,15 +58,11 @@ export const getNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    console.error("Error in getNote:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server Internal Error",
-    });
+    next(error);
   }
 };
 
-export const updateNote = async (req, res) => {
+export const updateNote = async (req, res, next) => {
   try {
     const id = req.params.id;
     const { title, content } = req.body;
@@ -91,13 +76,7 @@ export const updateNote = async (req, res) => {
       { returnDocument: "after" },
     );
 
-    if (!note) {
-      return res.status(404).json({
-        success: false,
-        message: "Note not found",
-        data: note,
-      });
-    }
+    notFoundError(note, "Note not found");
 
     return res.status(200).json({
       success: true,
@@ -105,27 +84,17 @@ export const updateNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    console.error("Error in updateNote:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server Internal Error",
-    });
+    next(error);
   }
 };
 
-export const deleteNote = async (req, res) => {
+export const deleteNote = async (req, res, next) => {
   try {
     const id = req.params.id;
 
     const note = await Note.findByIdAndDelete(id);
 
-    if (!note) {
-      return res.status(404).json({
-        success: false,
-        message: "Note not found",
-        data: note,
-      });
-    }
+    notFoundError(note, "Note not found");
 
     return res.status(200).json({
       success: true,
@@ -133,10 +102,6 @@ export const deleteNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    console.error("Error in deleteNote:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server Internal Error",
-    });
+    next(error);
   }
 };
