@@ -141,7 +141,7 @@ mern_thinkboard/
 │   ├── .gitignore                  # Node.js gitignore (includes .env, node_modules, etc.)
 │   ├── package.json                # Project metadata, scripts, and dependencies
 │   └── package-lock.json           # Locked dependency tree
-└── README.MD
+└── README.md
 ```
 
 ---
