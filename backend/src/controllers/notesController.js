@@ -2,21 +2,17 @@ import Note from "../models/Note.js";
 
 const notFoundError = (data, message) => {
   if (!data) {
-    return res.status(404).json({
-      success: false,
-      message: message || "Not found",
-      data: data,
-    });
+    const error = new Error(message);
+    error.statusCode = 404;
+    error.code = "DATA_NOT_FOUND";
+    throw error;
   }
 };
 
-const internalServerError = (method, error) => {
-  console.error(`Error in ${method}: ${error}`);
-
-  res.status(500).json({
-    success: false,
-    message: "Internal Server Error",
-  });
+const internalServerError = (err) => {
+  console.error(err);
+  const error = new Error();
+  throw error;
 };
 
 export const getNotes = async (req, res) => {
@@ -31,7 +27,7 @@ export const getNotes = async (req, res) => {
       data: notes,
     });
   } catch (error) {
-    internalServerError("getNotes", error);
+    internalServerError(error);
   }
 };
 
@@ -50,7 +46,7 @@ export const createNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    internalServerError("createNote", error);
+    internalServerError(error);
   }
 };
 
@@ -68,7 +64,7 @@ export const getNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    internalServerError("getNote", error);
+    internalServerError(error);
   }
 };
 
@@ -94,7 +90,7 @@ export const updateNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    internalServerError("updateNote", error);
+    internalServerError(error);
   }
 };
 
@@ -112,6 +108,6 @@ export const deleteNote = async (req, res) => {
       data: note,
     });
   } catch (error) {
-    internalServerError("deleteNote", error);
+    internalServerError(error);
   }
 };
