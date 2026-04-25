@@ -1,7 +1,8 @@
 import express from "express";
-import notesRoute from "./routes/notesRoutes.js";
-import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
+import { connectDB } from "./config/db.js";
+import notesRoute from "./routes/notesRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 dotenv.config();
@@ -14,6 +15,7 @@ connectDB();
 app.use(express.json());
 
 app.use("/api/v1/notes", notesRoute);
+app.use("/api/v1/auth", authRoutes);
 
 app.use(errorMiddleware);
 
