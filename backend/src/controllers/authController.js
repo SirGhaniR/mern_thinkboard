@@ -20,7 +20,7 @@ export const signup = async (req, res, next) => {
         userId: user.id,
         email: user.email,
       },
-      "oooverysecretkey",
+      process.env.JWT_SECRET,
       {
         expiresIn: "1h",
       },
@@ -67,7 +67,7 @@ export const login = async (req, res, next) => {
         userId: user.id,
         email: email,
       },
-      "oooverysecretkey",
+      process.env.JWT_SECRET,
       { expiresIn: "1h" },
     );
 
