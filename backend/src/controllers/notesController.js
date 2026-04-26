@@ -4,7 +4,6 @@ const notFoundError = (data, message) => {
   if (!data) {
     const error = new Error(message);
     error.statusCode = 404;
-    error.code = "DATA_NOT_FOUND";
     throw error;
   }
 };
