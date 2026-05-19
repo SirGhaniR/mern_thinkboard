@@ -3,4 +3,4 @@
   themes: false;
 }
 
-@plugin "./catppuccinTheme.mocha.ts";
+@plugin "./catppuccinTheme.mocha.js";
